@@ -16,6 +16,13 @@ If you put images into /docs/screenshots, then you would reference them in this 
 <img alt="..." src="https://github.com/Rockerby/Umbraco-FusionCacheTools/blob/develop/docs/screenshots/screenshot.png">
 -->
 
+## Local Development
+
+1. Clone the repo
+2. Run `DevSetup.bat` in the root
+3. Open `src/FusionCacheTools.sln`
+4. Dev!
+
 ## Installation
 
 Add the package to an existing Umbraco website (v10.4+) from nuget:
