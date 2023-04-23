@@ -1,0 +1,21 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PackageMsBuildContentFilesPath>$(MSBuildThisFileDirectory)..\App_Plugins\FusionCacheTools\**\*.*</PackageMsBuildContentFilesPath>
+  </PropertyGroup>
+
+  <Target Name="CopyPackageMsBuildAssets" BeforeTargets="Build">
+    <ItemGroup>
+      <PackageMsBuildContentFiles Include="$(PackageMsBuildContentFilesPath)" />
+    </ItemGroup>
+    <Message Text="Copying FusionCacheTools files: $(PackageMsBuildContentFilesPath) - #@(PackageMsBuildContentFiles->Count()) files" Importance="high" />
+    <Copy SourceFiles="@(PackageMsBuildContentFiles)" DestinationFiles="@(PackageMsBuildContentFiles->'$(MSBuildProjectDirectory)\App_Plugins\FusionCacheTools\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="ClearPackageMsBuildAssets" BeforeTargets="Clean">
+    <ItemGroup>
+      <PackageMsBuildDir Include="$(MSBuildProjectDirectory)\App_Plugins\FusionCacheTools\" />
+    </ItemGroup>
+    <Message Text="Clear old FusionCacheTools data" Importance="high" />
+    <RemoveDir Directories="@(PackageMsBuildDir)" />
+  </Target>
+</Project>
