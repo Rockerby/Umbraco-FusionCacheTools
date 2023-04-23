@@ -4,7 +4,9 @@
 [![NuGet](https://img.shields.io/nuget/vpre/Umbraco.Community.FusionCacheTools?color=0273B3)](https://www.nuget.org/packages/Umbraco.Community.FusionCacheTools)
 [![GitHub license](https://img.shields.io/github/license/Rockerby/Umbraco-FusionCacheTools?color=8AB803)](LICENSE)
 
-TODO: describe your package
+⚠️ This package is still in development and is not intended for public use yet!
+
+Using [FusionCache](https://github.com/ZiggyCreatures/FusionCache) in your Umbraco project? This package adds functionality for you to see the status of the cache right from the Umbraco back office.
 
 <!--
 Including screenshots is a really good idea! 
