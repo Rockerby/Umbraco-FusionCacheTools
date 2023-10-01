@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using FusionCacheTools.BackOffice.Models;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace FusionCacheTools.BackOffice.Services
 {
@@ -9,9 +10,15 @@ namespace FusionCacheTools.BackOffice.Services
             _memoryCache = memoryCache;
         }
 
-        public IEnumerable<string> GetCacheKeys()
+        public IEnumerable<FusionCachedObject> GetCacheKeys()
         {
-            return _memoryCache.GetKeys<string>();
+            foreach (string key in _memoryCache.GetKeys<string>()) {
+                yield return new FusionCachedObject()
+                {
+                    Key = key,
+                    Expiration = DateTime.UtcNow, //TODO: How do we get this!
+                };
+            };                
         }
     }
 }

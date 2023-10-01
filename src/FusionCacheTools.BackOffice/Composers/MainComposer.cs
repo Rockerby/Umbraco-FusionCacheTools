@@ -58,7 +58,7 @@ namespace FusionCacheTools.BackOffice.Composers
         private void AddFusionCacheTools(IUmbracoBuilder builder)
         {
             builder.Services.AddSingleton<ICacheKeyFetcher, MemoryCacheKeyFetcher>();
-            builder.Services.AddSingleton<ICacheKeyFetcher, SqlDistCacheKeyFetcher>();
+            //builder.Services.AddSingleton<ICacheKeyFetcher, SqlDistCacheKeyFetcher>();
             builder.Services.AddSingleton<ICacheKeyPersistenceService, CacheKeyPersistenceService>();
         }
     }

@@ -15,7 +15,7 @@ namespace FusionCacheTools.BackOffice.Services
             _configuration = configuration;
         }
 
-        public IEnumerable<string> GetCacheKeys()
+        public IEnumerable<FusionCachedObject> GetCacheKeys()
         {
             string connectionString = _configuration.GetConnectionString(CACHE_CONNECTIONSTRING_NAME);
             List<SqlCacheItem> cacheItems = new List<SqlCacheItem>();
@@ -44,13 +44,15 @@ namespace FusionCacheTools.BackOffice.Services
                             if (!reader.IsDBNull(4))
                                 cacheItem.AbsoluteExpiration = reader.GetDateTimeOffset(4);
 
-                            cacheItems.Add(cacheItem);
+                            yield return new FusionCachedObject()
+                            {
+                                Key = cacheItem.CacheKey,
+                                Expiration = cacheItem.AbsoluteExpiration.UtcDateTime
+                            };
                         }
                     }
                 }
             }
-
-            return cacheItems.Select(a => a.CacheKey);
         }
     }
 }

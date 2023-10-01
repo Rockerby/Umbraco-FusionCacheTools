@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FusionCacheTools.BackOffice.Models;
+using Microsoft.Extensions.Logging;
 using System.Reflection;
 
 namespace FusionCacheTools.BackOffice.Services
@@ -17,12 +18,12 @@ namespace FusionCacheTools.BackOffice.Services
         /// Fetch the keys from all the registered ICacheKeyFetchers
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<string> GetCacheKeys()
+        public IEnumerable<FusionCachedObject> GetCacheKeys()
         {
             if (_cacheKeyFetchers == null || !_cacheKeyFetchers.Any())
                 throw new ArgumentException("No implementations of ICacheKeyFetcher found. Have you registered one?");
 
-            IEnumerable<string> retData = Enumerable.Empty<string>();
+            IEnumerable<FusionCachedObject> retData = Enumerable.Empty<FusionCachedObject>();
 
             foreach (var cacheKey in _cacheKeyFetchers)
             {

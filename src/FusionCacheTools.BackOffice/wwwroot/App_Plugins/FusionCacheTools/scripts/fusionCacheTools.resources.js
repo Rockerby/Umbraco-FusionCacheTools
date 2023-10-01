@@ -12,7 +12,8 @@ function fusionCacheToolsResource($rootScope, $q, $http, umbRequestHelper) {
     let urlBase = 'backoffice/FusionCacheTools/';
 
     let endpoints = {
-        GetAllCacheKeys: urlBase + "Cache/GetAllCacheKeys"
+        GetAllCacheKeys: urlBase + "Cache/GetAllCacheKeys",
+        GetCacheItem: urlBase + "Cache/GetCacheItem"
     }
 
     var initialize = function () {
@@ -26,9 +27,25 @@ function fusionCacheToolsResource($rootScope, $q, $http, umbRequestHelper) {
             "Failed to retrieve all Person data");
     }
 
+    /*
+    *
+    */
+    function fetchItem(cacheKey) {
+
+        let url = endpoints.GetCacheItem + '?' +
+            new URLSearchParams({
+                key: cacheKey
+            });
+
+        return umbRequestHelper.resourcePromise(
+            $http.get(url),
+            "Failed to retrieve all Person data");
+    }
+
     return {
         initialize,
-        fetchAllCacheKeys
+        fetchAllCacheKeys,
+        fetchItem
     };
 };
 

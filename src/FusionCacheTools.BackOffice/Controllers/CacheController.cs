@@ -94,7 +94,7 @@ namespace FusionCacheTools.BackOffice.Controllers
 
 
 
-        public IEnumerable<string> GetAllCacheKeys()
+        public IEnumerable<FusionCachedObject> GetAllCacheKeys()
         {
             return _cacheKeyPersistenceService.GetCacheKeys();
 
