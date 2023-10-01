@@ -1,0 +1,19 @@
+{
+  "name": "fusion-cache-tools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "watch": {
+    "build": "./FusionCacheTools.BackOffice/wwwroot/App_Plugins/FusionCacheTools/**/*.*"
+  },
+  "scripts": {
+    "build": "copyfiles -u 4 \"./FusionCacheTools.BackOffice/wwwroot/App_Plugins/FusionCacheTools/**/*.*\" \"./FusionCacheTools.TestSite/wwwroot/App_Plugins/FusionCacheTools/\"",
+    "dev": "npm-watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "npm-watch": "^0.11.0"
+  }
+}

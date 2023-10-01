@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+	<StaticWebAssetBasePath>/</StaticWebAssetBasePath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\App_Plugins\FusionCacheTools\scripts\fusionCacheTools.resources.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\App_Plugins\FusionCacheTools\scripts\fusionCacheTools.resources.js" />
+    <None Include="wwwroot\App_Plugins\FusionCacheTools\scripts\settingsCacheDashboard.controller.js" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.20" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="10.7.0" />
+    <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="10.7.0" />
+    <PackageReference Include="Umbraco.Cms.Web.Website" Version="10.7.0" />
+    <PackageReference Include="ZiggyCreatures.FusionCache" Version="0.23.0" />
+    <PackageReference Include="ZiggyCreatures.FusionCache.Serialization.NewtonsoftJson" Version="0.23.0" />
+  </ItemGroup>
+
+</Project>
