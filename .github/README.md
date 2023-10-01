@@ -1,4 +1,4 @@
-# FusionCacheTools
+# Umbraco FusionCacheTools
 
 [![Downloads](https://img.shields.io/nuget/dt/Umbraco.Community.FusionCacheTools?color=cc9900)](https://www.nuget.org/packages/Umbraco.Community.FusionCacheTools/)
 [![NuGet](https://img.shields.io/nuget/vpre/Umbraco.Community.FusionCacheTools?color=0273B3)](https://www.nuget.org/packages/Umbraco.Community.FusionCacheTools)
@@ -25,9 +25,9 @@ If you put images into /docs/screenshots, then you would reference them in this 
 
 ## Installation
 
-Add the package to an existing Umbraco website (v10.4+) from nuget:
+~Add the package to an existing Umbraco website (v10.4+) from nuget:~
 
-`dotnet add package Umbraco.Community.FusionCacheTools`
+~`dotnet add package Umbraco.Community.FusionCacheTools`~
 
 TODO *provide any other instructions for someone using your package*
 
