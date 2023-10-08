@@ -6,6 +6,8 @@ namespace FusionCacheTools.BackOffice.Services
     public class MemoryCacheKeyFetcher : ICacheKeyFetcher
     {
         private readonly IMemoryCache _memoryCache;
+        public string Name => "Memory";
+
         public MemoryCacheKeyFetcher(IMemoryCache memoryCache) {
             _memoryCache = memoryCache;
         }
@@ -17,6 +19,7 @@ namespace FusionCacheTools.BackOffice.Services
                 {
                     Key = key,
                     Expiration = DateTime.UtcNow, //TODO: How do we get this!
+                    CachedTypeName = Name
                 };
             };                
         }

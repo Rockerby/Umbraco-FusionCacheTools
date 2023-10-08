@@ -91,11 +91,25 @@ namespace FusionCacheTools.BackOffice.Controllers
         }
 
 
+        public object GetCacheItem(string key)
+        {
+            var product = _cache.GetOrDefault<object>(key);
 
+            return product;
+        }
 
+        public bool RemoveCacheItem(string key)
+        {
+            _cache.Remove(key);
+
+            return true;
+        }
 
         public IEnumerable<FusionCachedObject> GetAllCacheKeys()
         {
+
+            //var allCachedObjects = _cachePlugin.GetAllCachedObjects();
+            //return allCachedObjects ?? Enumerable.Empty<FusionCachedObject>();
             return _cacheKeyPersistenceService.GetCacheKeys();
 
             //IEnumerable<string> objs = _cachePlugin.GetAllCachedObjects();

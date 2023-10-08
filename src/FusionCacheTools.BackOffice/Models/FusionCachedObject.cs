@@ -10,5 +10,6 @@ namespace FusionCacheTools.BackOffice.Models
     {
         public string Key { get; set; }
         public DateTime Expiration { get; set; }
+        public string CachedTypeName { get; set; }
     }
 }

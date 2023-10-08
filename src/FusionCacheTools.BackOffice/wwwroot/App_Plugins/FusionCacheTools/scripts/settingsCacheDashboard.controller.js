@@ -39,7 +39,61 @@
                 logTypeColor: 'dark'
             }
         ];
+        
+        vm.syncActions = {
+            enabled: false,
+            interval: 0,
+            promise: null,
 
+            defaultButton: {
+                labelKey: "fusion_sync",
+                handler: function (e,f,g) {
+                    console.log("fusion_sync", { t: this, e, f, g });
+                    //if (vm.syncActions.enabled) {
+                    //    vm.syncActions.enabled = false;
+                    //    vm.syncActions.interval = 0;
+                    //    vm.syncActions.defaultButton.icon = null;
+                    //    vm.syncActions.defaultButton.labelKey = "logViewer_polling";
+                    //}
+                    //else {
+                    //    vm.syncActions.subButtons[0].handler();
+                    //}
+                }
+            },
+            subButtons: [
+                {
+                    labelKey: "logViewer_every2",
+                    handler: function () {
+                        enablePolling(2);
+                    }
+                },
+                {
+                    labelKey: "logViewer_every5",
+                    handler: function () {
+                        enablePolling(5);
+                    }
+                },
+                {
+                    labelKey: "logViewer_every10",
+                    handler: function () {
+                        enablePolling(10);
+                    }
+                },
+                {
+                    labelKey: "logViewer_every20",
+                    handler: function () {
+                        enablePolling(20);
+                    }
+                },
+                {
+                    labelKey: "logViewer_every30",
+                    handler: function () {
+                        enablePolling(30);
+                    }
+                }
+            ]
+
+        }
         vm.polling = {
             enabled: false,
             interval: 0,
@@ -115,6 +169,25 @@
             }, interval * 1000);
         }
 
+        function removeCache(cacheItem) {
+            console.log(cacheItem);
+            var r = fusionCacheToolsResource.removeCache(cacheItem.Key);
+            r.then(() => {
+                getLogs();
+            });
+        }
+
+        function getCachedItem(cacheItem) {
+            var r = fusionCacheToolsResource.fetchItem(cacheItem.Key);
+            console.log(r);
+            r.then((b) => {
+                cacheItem.fetchedData = b;
+                console.log(b);
+            });
+        }
+
+        vm.removeCache = removeCache;
+        vm.getCachedItem = getCachedItem;
 
         vm.searches = [];
 

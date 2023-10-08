@@ -1,4 +1,5 @@
-﻿using ZiggyCreatures.Caching.Fusion;
+﻿using FusionCacheTools.BackOffice.Models;
+using ZiggyCreatures.Caching.Fusion;
 using ZiggyCreatures.Caching.Fusion.Events;
 using ZiggyCreatures.Caching.Fusion.Plugins;
 
@@ -51,11 +52,17 @@ namespace FusionCacheTools.BackOffice.FusionCacheHelpers
             //cache.Events.Distributed.Set -= set;
         }
 
-        public IEnumerable<string> GetAllCachedObjects()
+        public IEnumerable<FusionCachedObject> GetAllCachedObjects()
         {
             foreach (string key in AddedKeys)
             {
-                yield return fusionCache.GetOrDefault<object>(key).ToString();
+                var x = fusionCache.GetOrDefault<object>(key);
+                yield return new FusionCachedObject()
+                {
+                    Key = key,
+                    Expiration = DateTime.Now,
+                    //Data = fusionCache.GetOrDefault<object>(key).ToString();
+                };
             }
         }
     }

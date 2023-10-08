@@ -13,7 +13,8 @@ function fusionCacheToolsResource($rootScope, $q, $http, umbRequestHelper) {
 
     let endpoints = {
         GetAllCacheKeys: urlBase + "Cache/GetAllCacheKeys",
-        GetCacheItem: urlBase + "Cache/GetCacheItem"
+        GetCacheItem: urlBase + "Cache/GetCacheItem",
+        RemoveCacheItem: urlBase + "Cache/RemoveCacheItem"
     }
 
     var initialize = function () {
@@ -42,10 +43,23 @@ function fusionCacheToolsResource($rootScope, $q, $http, umbRequestHelper) {
             "Failed to retrieve all Person data");
     }
 
+    function removeCache(cacheKey) {
+
+        let url = endpoints.RemoveCacheItem + '?' +
+            new URLSearchParams({
+                key: cacheKey
+            });
+
+        return umbRequestHelper.resourcePromise(
+            $http.get(url),
+            "Failed to retrieve all Person data");
+    }
+
     return {
         initialize,
         fetchAllCacheKeys,
-        fetchItem
+        fetchItem,
+        removeCache
     };
 };
 

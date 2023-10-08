@@ -9,6 +9,7 @@ namespace FusionCacheTools.BackOffice.Services
     public class SqlDistCacheKeyFetcher : ICacheKeyFetcher
     {
         public static string CACHE_CONNECTIONSTRING_NAME = "cacheDb";
+        public string Name => "SQL";
 
         private readonly IConfiguration _configuration;
         public SqlDistCacheKeyFetcher(IConfiguration configuration) {
@@ -47,7 +48,8 @@ namespace FusionCacheTools.BackOffice.Services
                             yield return new FusionCachedObject()
                             {
                                 Key = cacheItem.CacheKey,
-                                Expiration = cacheItem.AbsoluteExpiration.UtcDateTime
+                                Expiration = cacheItem.AbsoluteExpiration.UtcDateTime,
+                                CachedTypeName = Name
                             };
                         }
                     }

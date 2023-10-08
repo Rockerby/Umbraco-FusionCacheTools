@@ -166,7 +166,7 @@
                                 <tr ng-repeat-start="log in vm.cacheKeys" ng-click="log.open = !log.open">
                                     <td>{{ log.Key }}</td>
                                     <td>{{ log.Expiration | date:'medium'  }}</td>
-                                    <td><umb-badge size="s" color="{{ log.logTypeColor }}">{{ log.Level }}</umb-badge></td>
+                                    <td><umb-badge size="s" color="{{ log.logTypeColor }}">{{ log.CachedTypeName }}</umb-badge></td>
                                     <td style="word-break: break-word;">&nbsp;</td>
                                 </tr>
 
@@ -178,91 +178,104 @@
                                             <pre style="white-space: pre-wrap;">{{ log.Expiration | date:'medium' }}</pre>
                                         </div>
 
-                                        <!--<table class="table">
-                                            <tbody>
-                                                <tr>
-                                                    <th style="width:38.5ch">Timestamp</th>
-                                                    <td>{{log.Timestamp}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>@MessageTemplate</th>
-                                                    <td>{{log.MessageTemplateText}}</td>
-                                                </tr>
-                                                <tr ng-repeat="(key, val) in log.Properties">
-                                                    <th>{{key}}</th>
-                                                    <td ng-switch on="key">
-                                                        <button type="button" class="btn-reset" ng-switch-when="HttpRequestNumber" ng-click="vm.findItem(key, val.Value)" localize="title" title="@logViewer_findLogsWithRequestId" aria-describedby="{{key}}">
-                                                            {{val.Value}} <umb-icon icon="icon-search" aria-hidden="true"></umb-icon>
-                                                        </button>
-                                                        <button type="button" class="btn-reset" ng-switch-when="SourceContext" ng-click="vm.findItem(key, val.Value)" localize="title" title="@logViewer_findLogsWithNamespace" aria-describedby="{{key}}">
-                                                            {{val.Value}} <umb-icon icon="icon-search" aria-hidden="true"></umb-icon>
-                                                        </button>
-                                                        <button type="button" class="btn-reset" ng-switch-when="MachineName" ng-click="vm.findItem(key, val.Value)" localize="title" title="@logViewer_findLogsWithMachineName" aria-describedby="{{key}}">
-                                                            {{val.Value}} <umb-icon icon="icon-search"></umb-icon>
-                                                        </button>
-                                                        <a class="btn-reset" ng-switch-when="RequestUrl" href="{{val.Value}}" target="_blank" rel="noopener" localize="title" title="@logViewer_Open" aria-describedby="{{key}}">
-                                                            {{val.Value}} <umb-icon icon="icon-link"></umb-icon>
-                                                        </a>
-                                                        <span ng-switch-default>
-                                                            <span ng-if="val.Value">
-                                                                {{val.Value}}
-                                                            </span>
-                                                            <pre ng-if="!val.Value">{{val | json}}</pre>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-                                        <div class="btn-group" style="margin-bottom:20px" deep-blur="log.searchDropdownOpen = !log.searchDropdownOpen">
-                                            <button type="button"
-                                                    class="btn btn-info dropdown-toggle"
-                                                    aria-haspopup="true"
-                                                    aria-expanded="{{log.searchDropdownOpen === undefined ? false : log.searchDropdownOpen}}"
-                                                    ng-click="log.searchDropdownOpen = !log.searchDropdownOpen">
-                                                <umb-icon icon="icon-search" class="icon-search"></umb-icon>
-                                                <localize key="general_search">Search</localize>
-                                                <span class="caret" aria-hidden="true"></span>
+                                        <div class="flex">
+                                            <!-- syncActions Button -->
+                                            <button type="button" class="btn-reset" ng-click="vm.removeCache(log)" localize="title" title="Refresh Cache">
+                                                remove <umb-icon icon="icon-search" aria-hidden="true"></umb-icon>
                                             </button>
 
-                                            <umb-dropdown ng-if="log.searchDropdownOpen" on-close="log.searchDropdownOpen = false">
-                                                <umb-dropdown-item>
-                                                    <a ng-href="https://www.google.com/search?q={{ log.RenderedMessage }}" href="" target="_blank" rel="noopener" localize="title" title="@logViewer_searchThisMessageWithGoogle">
-                                                        <img src="https://www.google.com/favicon.ico" width="16" height="16" alt="" /> <localize key="logViewer_searchWithGoogle">Search With Google</localize>
-                                                    </a>
-                                                </umb-dropdown-item>
+                                            <button type="button" class="btn-reset" ng-click="vm.getCachedItem(log)" localize="title" title="Refresh Cache">
+                                                fetch <umb-icon icon="icon-search" aria-hidden="true"></umb-icon>
+                                            </button>
+                                        </div>
+                                        <div ng-if="log.fetchedData">
+                                            {{ log.fetchedData }}
+                                        </div>
+                                        <!--<table class="table">
+        <tbody>
+            <tr>
+                <th style="width:38.5ch">Timestamp</th>
+                <td>{{log.Timestamp}}</td>
+            </tr>
+            <tr>
+                <th>@MessageTemplate</th>
+                <td>{{log.MessageTemplateText}}</td>
+            </tr>
+            <tr ng-repeat="(key, val) in log.Properties">
+                <th>{{key}}</th>
+                <td ng-switch on="key">
+                    <button type="button" class="btn-reset" ng-switch-when="HttpRequestNumber" ng-click="vm.findItem(key, val.Value)" localize="title" title="@logViewer_findLogsWithRequestId" aria-describedby="{{key}}">
+                        {{val.Value}} <umb-icon icon="icon-search" aria-hidden="true"></umb-icon>
+                    </button>
+                    <button type="button" class="btn-reset" ng-switch-when="SourceContext" ng-click="vm.findItem(key, val.Value)" localize="title" title="@logViewer_findLogsWithNamespace" aria-describedby="{{key}}">
+                        {{val.Value}} <umb-icon icon="icon-search" aria-hidden="true"></umb-icon>
+                    </button>
+                    <button type="button" class="btn-reset" ng-switch-when="MachineName" ng-click="vm.findItem(key, val.Value)" localize="title" title="@logViewer_findLogsWithMachineName" aria-describedby="{{key}}">
+                        {{val.Value}} <umb-icon icon="icon-search"></umb-icon>
+                    </button>
+                    <a class="btn-reset" ng-switch-when="RequestUrl" href="{{val.Value}}" target="_blank" rel="noopener" localize="title" title="@logViewer_Open" aria-describedby="{{key}}">
+                        {{val.Value}} <umb-icon icon="icon-link"></umb-icon>
+                    </a>
+                    <span ng-switch-default>
+                        <span ng-if="val.Value">
+                            {{val.Value}}
+                        </span>
+                        <pre ng-if="!val.Value">{{val | json}}</pre>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-                                                <umb-dropdown-item>
-                                                    <a ng-href="https://www.bing.com/search?q={{ log.RenderedMessage }}" target="_blank" title="Search this message with Bing">
-                                                        <img src="https://www.bing.com/favicon.ico" width="16" height="16" /> Search With Bing
-                                                    </a>
-                                                </umb-dropdown-item>
+    <div class="btn-group" style="margin-bottom:20px" deep-blur="log.searchDropdownOpen = !log.searchDropdownOpen">
+        <button type="button"
+                class="btn btn-info dropdown-toggle"
+                aria-haspopup="true"
+                aria-expanded="{{log.searchDropdownOpen === undefined ? false : log.searchDropdownOpen}}"
+                ng-click="log.searchDropdownOpen = !log.searchDropdownOpen">
+            <umb-icon icon="icon-search" class="icon-search"></umb-icon>
+            <localize key="general_search">Search</localize>
+            <span class="caret" aria-hidden="true"></span>
+        </button>
 
-                                                <umb-dropdown-item>
-                                                    <a ng-href="https://our.umbraco.com/search?q={{ log.RenderedMessage }}&content=wiki,forum,documentation" target="_blank" title="Search this message on Our Umbraco forums and docs">
-                                                        <img src="https://our.umbraco.com/assets/images/app-icons/favicon.png" width="16" height="16" /> Search Our Umbraco
-                                                    </a>
-                                                </umb-dropdown-item>
+        <umb-dropdown ng-if="log.searchDropdownOpen" on-close="log.searchDropdownOpen = false">
+            <umb-dropdown-item>
+                <a ng-href="https://www.google.com/search?q={{ log.RenderedMessage }}" href="" target="_blank" rel="noopener" localize="title" title="@logViewer_searchThisMessageWithGoogle">
+                    <img src="https://www.google.com/favicon.ico" width="16" height="16" alt="" /> <localize key="logViewer_searchWithGoogle">Search With Google</localize>
+                </a>
+            </umb-dropdown-item>
 
-                                                <umb-dropdown-item>
-                                                    <a ng-href="https://www.google.co.uk/?q=site:our.umbraco.com {{ log.RenderedMessage }}&safe=off#q=site:our.umbraco.com {{ log.RenderedMessage }} {{ log.Properties['SourceContext'].Value }}&safe=off" target="_blank" title="Search Our Umbraco forums using Google">
-                                                        <img src="https://www.google.com/favicon.ico" width="16" height="16" /> Search Our Umbraco with Google
-                                                    </a>
-                                                </umb-dropdown-item>
+            <umb-dropdown-item>
+                <a ng-href="https://www.bing.com/search?q={{ log.RenderedMessage }}" target="_blank" title="Search this message with Bing">
+                    <img src="https://www.bing.com/favicon.ico" width="16" height="16" /> Search With Bing
+                </a>
+            </umb-dropdown-item>
 
-                                                <umb-dropdown-item>
-                                                    <a ng-href="https://github.com/umbraco/Umbraco-CMS/search?q={{ log.Properties['SourceContext'].Value }}" target="_blank" title="Search within Umbraco source code on Github">
-                                                        <img src="https://www.github.com/favicon.ico" width="16" height="16" /> Search Umbraco Source
-                                                    </a>
-                                                </umb-dropdown-item>
+            <umb-dropdown-item>
+                <a ng-href="https://our.umbraco.com/search?q={{ log.RenderedMessage }}&content=wiki,forum,documentation" target="_blank" title="Search this message on Our Umbraco forums and docs">
+                    <img src="https://our.umbraco.com/assets/images/app-icons/favicon.png" width="16" height="16" /> Search Our Umbraco
+                </a>
+            </umb-dropdown-item>
 
-                                                <umb-dropdown-item>
-                                                    <a ng-href="https://github.com/umbraco/Umbraco-CMS/issues?q={{ log.Properties['SourceContext'].Value }}" target="_blank" title="Search Umbraco Issues on Github">
-                                                        <img src="https://www.github.com/favicon.ico" width="16" height="16" /> Search Umbraco Issues
-                                                    </a>
-                                                </umb-dropdown-item>
-                                            </umb-dropdown>
-                                        </div>-->
+            <umb-dropdown-item>
+                <a ng-href="https://www.google.co.uk/?q=site:our.umbraco.com {{ log.RenderedMessage }}&safe=off#q=site:our.umbraco.com {{ log.RenderedMessage }} {{ log.Properties['SourceContext'].Value }}&safe=off" target="_blank" title="Search Our Umbraco forums using Google">
+                    <img src="https://www.google.com/favicon.ico" width="16" height="16" /> Search Our Umbraco with Google
+                </a>
+            </umb-dropdown-item>
+
+            <umb-dropdown-item>
+                <a ng-href="https://github.com/umbraco/Umbraco-CMS/search?q={{ log.Properties['SourceContext'].Value }}" target="_blank" title="Search within Umbraco source code on Github">
+                    <img src="https://www.github.com/favicon.ico" width="16" height="16" /> Search Umbraco Source
+                </a>
+            </umb-dropdown-item>
+
+            <umb-dropdown-item>
+                <a ng-href="https://github.com/umbraco/Umbraco-CMS/issues?q={{ log.Properties['SourceContext'].Value }}" target="_blank" title="Search Umbraco Issues on Github">
+                    <img src="https://www.github.com/favicon.ico" width="16" height="16" /> Search Umbraco Issues
+                </a>
+            </umb-dropdown-item>
+        </umb-dropdown>
+    </div>-->
 
                                     </td>
                                 </tr>
